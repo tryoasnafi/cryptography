@@ -1,7 +1,7 @@
-const fs = require('fs');
-const { generateKeyPair } = require('node:crypto');
+import fs from 'fs';
+import { generateKeyPair } from 'node:crypto';
 
-generateKeyPair('dsa', {
+const generateKey = () => generateKeyPair('dsa', {
   modulusLength: 4096,
   publicKeyEncoding: {
     type: 'spki',
@@ -16,6 +16,24 @@ generateKeyPair('dsa', {
 }, (err, publicKey, privateKey) => {
   // save publicKey and privateKey to files
   console.log(JSON.stringify(publicKey));
-  // fs.writeFile('publicKey.pem', publicKey);
-  // fs.writeFile('privateKey.pem', privateKey);
+  fs.writeFile('publicKey.pem', publicKey);
+  fs.writeFile('privateKey.pem', privateKey);
 });
+
+const getPairKey = () => {
+  const publicKey = fs.readFileSync('publicKey.pem', 'utf8');
+  const privateKey = fs.readFileSync('privateKey.pem', 'utf8');
+
+  return {
+    'publicKey': publicKey,
+    'privateKey': {
+      key: privateKey,
+      passphrase: 'digital signature algorithm'
+    }
+  };
+}
+
+export {
+  generateKey,
+  getPairKey
+};
