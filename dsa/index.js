@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { getPairKey } from './keyPair.js';
 import signFile from './signFile.js';
-import verifiyFile from './verifyFile.js';
+import verifyFile from './verifyFile.js';
 
 // load pair key from key files
 const { publicKey, privateKey } = getPairKey();
@@ -15,6 +15,6 @@ const editedImage = fs.readFileSync('./polbeng.png');
 const signature = signFile(originalImage, privateKey);
 console.log(`Signature: ${signature}`);
 
-// verifiy file
-const isVerified = verifiyFile(editedImage, publicKey, signature);
+// verify file
+const isVerified = verifyFile(editedImage, publicKey, signature);
 console.log(`Is verified file? ${isVerified}`);
